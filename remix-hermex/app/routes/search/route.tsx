@@ -1,0 +1,202 @@
+import { useMemo, useState } from 'react';
+import { useLoaderData, type LoaderFunctionArgs } from 'react-router';
+import { Breadcrumbs, CarCard, Header } from '~/components';
+import { api } from '~/services/api.server';
+
+export async function loader({ request }: LoaderFunctionArgs) {
+	const url = new URL(request.url);
+	const query = url.searchParams.get('q') || '';
+
+	try {
+		const [cars, categories] = await Promise.all([api.getCars(), api.getCategory()]);
+		const filteredCars = query
+			? cars.filter((car) => {
+					const searchTerm = query.toLowerCase();
+
+					return (
+						car.title.toLowerCase().includes(searchTerm) ||
+						car.shortTitle.toLowerCase().includes(searchTerm) ||
+						car.description.toLowerCase().includes(searchTerm) ||
+						car.features?.some((feature) => feature.toLowerCase().includes(searchTerm))
+					);
+				})
+			: cars;
+
+		return { cars: filteredCars, query, categories };
+	} catch (error) {
+		if (error instanceof Response) throw error;
+		throw new Response('Erro ao buscar veículos', { status: 500 });
+	}
+}
+
+export default function SearchRoute() {
+	const { cars, query, categories } = useLoaderData<typeof loader>();
+
+	const [selectedCategory, setSelectedCategory] = useState<number | 'all'>('all');
+	const [sortBy, setSortBy] = useState<string>('price-asc');
+
+	// Filter and sort logic
+	const filteredCars = useMemo(() => {
+		return cars
+			.filter((car) => {
+				// Category filter
+				if (selectedCategory !== 'all' && car.categoryId !== selectedCategory) {
+					return false;
+				}
+
+				// Search query filter - only filter if there's a query
+				// When coming from SearchBox with location, show all cars
+				// When searching from Header, filter by car name/description
+				// Note: In a real app, location would filter by actual car availability
+
+				return true;
+			})
+			.sort((a, b) => {
+				if (sortBy === 'price-asc') return a.price - b.price;
+				if (sortBy === 'price-desc') return b.price - a.price;
+				if (sortBy === 'name') return a.title.localeCompare(b.title);
+				return 0;
+			});
+	}, [cars, selectedCategory, sortBy]);
+
+	return (
+		<div className='min-h-screen bg-neutral-background'>
+			<Header />
+			<Breadcrumbs items={[{ label: 'Busca' }]} />
+
+			<div className='max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12'>
+				{/* Header */}
+				<div className='mb-8'>
+					<h1 className='font-heading text-heading-xl lg:text-heading-xxl text-neutral-black mb-2'>
+						{query ? `Veículos disponíveis em "${query}"` : 'Todos os Veículos'}
+					</h1>
+					<p className='text-body-md text-neutral-text'>
+						{cars.length} {cars.length === 1 ? 'veículo disponível' : 'veículos disponíveis'}
+					</p>
+				</div>
+
+				{/* Filters and Sort */}
+				<>
+					<div className='bg-neutral-white rounded-lg shadow-elevation-1 p-6 mb-8'>
+						<div className='flex flex-col lg:flex-row gap-6'>
+							{/* Category Filter */}
+							<div className='flex-1'>
+								<label className='block text-body-sm font-medium text-neutral-black mb-2'>
+									Categoria
+								</label>
+								<div className='flex flex-wrap gap-2'>
+									<button
+										key='all'
+										className={`px-4 py-2 rounded-lg text-body-sm font-medium transition-colors ${
+											selectedCategory === 'all'
+												? 'bg-primary-pure text-neutral-white'
+												: 'bg-neutral-divisor text-neutral-text hover:bg-neutral-text/10'
+										}`}
+										onClick={() => setSelectedCategory('all')}
+									>
+										Todas
+									</button>
+									{categories.map((category) => (
+										<button
+											key={category.id}
+											onClick={() => setSelectedCategory(Number(category.id))}
+											className={`px-4 py-2 rounded-lg text-body-sm font-medium transition-colors ${
+												selectedCategory === Number(category.id)
+													? 'bg-primary-pure text-neutral-white'
+													: 'bg-neutral-divisor text-neutral-text hover:bg-neutral-text/10'
+											}`}
+										>
+											{category.title}
+										</button>
+									))}
+								</div>
+							</div>
+
+							{/* Sort */}
+							<div className='lg:w-64'>
+								<label className='block text-body-sm font-medium text-neutral-black mb-2'>
+									Ordenar por
+								</label>
+								<select
+									value={sortBy}
+									onChange={(e) => setSortBy(e.target.value)}
+									className='w-full px-4 py-2 border border-neutral-divisor rounded-lg text-body-md focus:outline-none focus:ring-2 focus:ring-primary-pure focus:border-transparent'
+								>
+									<option value='price-asc'>Menor preço</option>
+									<option value='price-desc'>Maior preço</option>
+									<option value='name'>Nome (A-Z)</option>
+								</select>
+							</div>
+						</div>
+					</div>
+
+					{/* Results Grid */}
+					{filteredCars.length > 0 ? (
+						<div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6'>
+							{filteredCars.map((car) => (
+								<CarCard
+									key={car.id}
+									id={car.id}
+									title={car.title}
+									shortTitle={car.shortTitle}
+									price={car.price}
+									image={car.image}
+								/>
+							))}
+						</div>
+					) : (
+						<div className='text-center py-16'>
+							<div className='w-24 h-24 bg-neutral-divisor rounded-full flex items-center justify-center mx-auto mb-6'>
+								<svg
+									className='w-12 h-12 text-neutral-text'
+									fill='none'
+									stroke='currentColor'
+									viewBox='0 0 24 24'
+								>
+									<path
+										strokeLinecap='round'
+										strokeLinejoin='round'
+										strokeWidth={2}
+										d='M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z'
+									/>
+								</svg>
+							</div>
+							<h3 className='font-heading text-heading-md text-neutral-black mb-2'>
+								Nenhum veículo encontrado
+							</h3>
+							<p className='text-body-md text-neutral-text mb-6'>
+								Tente ajustar os filtros ou buscar por outra categoria
+							</p>
+							<button
+								// onClick={() => setSelectedCategory('all')}
+								className='bg-primary-pure hover:bg-primary-dark text-neutral-white font-medium px-6 py-3 rounded-lg transition-colors'
+							>
+								Limpar filtros
+							</button>
+						</div>
+					)}
+				</>
+			</div>
+		</div>
+	);
+}
+
+export function ErrorBoundary() {
+	return (
+		<div className='min-h-screen bg-neutral-background flex items-center justify-center'>
+			<div className='text-center'>
+				<h1 className='text-heading-lg text-neutral-black mb-4'>Erro ao realizar busca</h1>
+				<p className='text-body-md text-neutral-text mb-6'>
+					Ocorreu um erro ao buscar os carros. Tente novamente.
+				</p>
+				<a
+					href='/'
+					className='bg-primary-pure hover:bg-primary-dark text-neutral-white font-medium px-6 py-3 rounded-lg 
+transition-colors inline-block'
+				>
+					Voltar para Home
+				</a>
+			</div>
+		</div>
+	);
+}

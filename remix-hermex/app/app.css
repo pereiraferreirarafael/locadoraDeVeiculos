@@ -1,0 +1,50 @@
+@import "tailwindcss";
+
+@theme {
+  /* Fontes */
+  --font-body: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-heading: "Chakra Petch", ui-sans-serif, system-ui, sans-serif;
+
+  /* Font Sizes - Body */
+  --font-size-body-xxl: 1.938rem;
+  --font-size-body-xl: 1.562rem;
+  --font-size-body-lg: 1.25rem;
+  --font-size-body-md: 1rem;
+  --font-size-body-sm: 0.812rem;
+  --font-size-body-xs: 0.625rem;
+
+  /* Font Sizes - Heading */
+  --font-size-heading-xxl: 4.75rem;
+  --font-size-heading-xl: 3.812rem;
+  --font-size-heading-lg: 3.062rem;
+  --font-size-heading-md: 2.438rem;
+  --font-size-heading-sm: 1.938rem;
+  --font-size-heading-xs: 1.562rem;
+
+  /* Colors - Neutral */
+  --color-neutral-background: #FBFBFB;
+  --color-neutral-text: #444444;
+  --color-neutral-divisor: #F2F2F2;
+  --color-neutral-white: #FFFFFF;
+  --color-neutral-black: #000000;
+
+  /* Colors - Primary */
+  --color-primary-dark: #E28634;
+  --color-primary-pure: #F29849;
+  --color-primary-light: #FFDAB8;
+
+  /* Colors - Secondary */
+  --color-secondary-dark: #23384D;
+  --color-secondary-pure: #1D2F40;
+  --color-secondary-light: #2E4B66;
+
+  /* Colors - Feedback */
+  --color-feedback-attention: #FFD400;
+  --color-feedback-negative: #FF3F48;
+  --color-feedback-positive: #6EDC3B;
+
+  /* Box Shadows */
+  --shadow-elevation-1: 0 0 10px rgba(132, 132, 132, 0.1);
+  --shadow-elevation-2: 0 0 20px rgba(132, 132, 132, 0.2);
+  --shadow-elevation-3: 0 0 30px rgba(132, 132, 132, 0.25);
+}

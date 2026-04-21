@@ -1,0 +1,268 @@
+{
+	"category": [
+		{
+			"id": 1,
+			"title": "Sedan",
+			"description": "Carros sedãs confortáveis e espaçosos, ideais para viagens longas e famílias"
+		},
+		{
+			"id": 2,
+			"title": "Hatch",
+			"description": "Carros compactos e econômicos, perfeitos para uso urbano e estacionamento fácil"
+		},
+		{
+			"id": 3,
+			"title": "Minivan",
+			"description": "Veículos versáteis com capacidade para 7 passageiros, ideais para famílias grandes"
+		},
+		{
+			"id": 4,
+			"title": "SUV",
+			"description": "Utilitários esportivos robustos, perfeitos para aventuras e terrenos variados"
+		}
+	],
+	"car": [
+		{
+			"id": "1",
+			"title": "Fiat Cronos",
+			"shortTitle": "Cronos",
+			"description": "Sedan confortável e espaçoso, ideal para viagens em família",
+			"categoryId": 1,
+			"price": 150,
+			"image": "/car-models/fiat_cronos.png",
+			"specs": {
+				"passengers": 5,
+				"transmission": "Automático",
+				"fuel": "Flex",
+				"year": 2024,
+				"airConditioning": true,
+				"trunk": "525L"
+			},
+			"features": [
+				"Ar condicionado",
+				"Direção elétrica",
+				"Vidros elétricos",
+				"Travas elétricas",
+				"Airbags",
+				"Freios ABS",
+				"Bluetooth",
+				"USB"
+			]
+		},
+		{
+			"id": 2,
+			"title": "Fiat Mobi",
+			"shortTitle": "Mobi",
+			"description": "Compacto econômico perfeito para cidade",
+			"categoryId": 2,
+			"price": 80,
+			"image": "/car-models/fiat_mobi.png",
+			"specs": {
+				"passengers": 4,
+				"transmission": "Manual",
+				"fuel": "Flex",
+				"year": 2024,
+				"airConditioning": true,
+				"trunk": "230L"
+			},
+			"features": [
+				"Ar condicionado",
+				"Direção hidráulica",
+				"Vidros dianteiros elétricos",
+				"Travas elétricas",
+				"Airbags",
+				"Freios ABS"
+			]
+		},
+		{
+			"id": 3,
+			"title": "Chevrolet Spin",
+			"shortTitle": "Spin",
+			"description": "Minivan versátil com 7 lugares para toda a família",
+			"categoryId": 3,
+			"price": 180,
+			"image": "/car-models/gm_spin.png",
+			"specs": {
+				"passengers": 7,
+				"transmission": "Automático",
+				"fuel": "Flex",
+				"year": 2024,
+				"airConditioning": true,
+				"trunk": "710L"
+			},
+			"features": [
+				"Ar condicionado",
+				"Direção elétrica",
+				"Vidros elétricos",
+				"Travas elétricas",
+				"Airbags",
+				"Freios ABS",
+				"Sensor de estacionamento",
+				"Controle de tração"
+			]
+		},
+		{
+			"id": 4,
+			"title": "Hyundai HB20",
+			"shortTitle": "HB20",
+			"description": "Hatch moderno e tecnológico com ótimo custo-benefício",
+			"categoryId": 2,
+			"price": 120,
+			"image": "/car-models/hb20.png",
+			"specs": {
+				"passengers": 5,
+				"transmission": "Manual",
+				"fuel": "Flex",
+				"year": 2024,
+				"airConditioning": true,
+				"trunk": "300L"
+			},
+			"features": [
+				"Ar condicionado",
+				"Direção hidráulica",
+				"Vidros elétricos",
+				"Travas elétricas",
+				"Airbags",
+				"Freios ABS",
+				"Computador de bordo"
+			]
+		},
+		{
+			"id": 5,
+			"title": "Honda City",
+			"shortTitle": "City",
+			"description": "Sedan compacto sofisticado com design elegante",
+			"categoryId": 1,
+			"price": 140,
+			"image": "/car-models/honda_city.png",
+			"specs": {
+				"passengers": 5,
+				"transmission": "Automático CVT",
+				"fuel": "Flex",
+				"year": 2024,
+				"airConditioning": true,
+				"trunk": "519L"
+			},
+			"features": [
+				"Ar condicionado",
+				"Direção elétrica",
+				"Vidros elétricos",
+				"Travas elétricas",
+				"Airbags",
+				"Freios ABS",
+				"Controle de cruzeiro",
+				"Sensor de ré"
+			]
+		},
+		{
+			"id": 6,
+			"title": "Honda City Sedan",
+			"shortTitle": "City Sedan",
+			"description": "Versão sedan premium do City com mais conforto",
+			"categoryId": 1,
+			"price": 160,
+			"image": "/car-models/honda_city_sedan.png",
+			"specs": {
+				"passengers": 5,
+				"transmission": "Automático CVT",
+				"fuel": "Flex",
+				"year": 2024,
+				"airConditioning": true,
+				"trunk": "519L"
+			},
+			"features": [
+				"Ar condicionado digital",
+				"Direção elétrica",
+				"Vidros elétricos",
+				"Travas elétricas",
+				"Airbags",
+				"Freios ABS",
+				"Controle de cruzeiro",
+				"Sensor de ré",
+				"Câmera de ré"
+			]
+		},
+		{
+			"id": 7,
+			"title": "Chevrolet Onix",
+			"shortTitle": "Onix",
+			"description": "Hatch líder de vendas com tecnologia e economia",
+			"categoryId": 2,
+			"price": 110,
+			"image": "/car-models/onix.png",
+			"specs": {
+				"passengers": 5,
+				"transmission": "Manual",
+				"fuel": "Flex",
+				"year": 2024,
+				"airConditioning": true,
+				"trunk": "303L"
+			},
+			"features": [
+				"Ar condicionado",
+				"Direção elétrica",
+				"Vidros elétricos",
+				"Travas elétricas",
+				"Airbags",
+				"Freios ABS",
+				"Computador de bordo"
+			]
+		},
+		{
+			"id": 8,
+			"title": "Jeep Renegade",
+			"shortTitle": "Renegade",
+			"description": "SUV aventureiro pronto para qualquer terreno",
+			"categoryId": 4,
+			"price": 220,
+			"image": "/car-models/renegade.png",
+			"specs": {
+				"passengers": 5,
+				"transmission": "Automático",
+				"fuel": "Flex",
+				"year": 2024,
+				"airConditioning": true,
+				"trunk": "470L"
+			},
+			"features": [
+				"Ar condicionado",
+				"Direção elétrica",
+				"Vidros elétricos",
+				"Travas elétricas",
+				"Airbags",
+				"Freios ABS",
+				"Controle de tração",
+				"Sensor de estacionamento",
+				"Multimídia touchscreen"
+			]
+		},
+		{
+			"id": 9,
+			"title": "Volkswagen T-Cross",
+			"shortTitle": "T-Cross",
+			"description": "SUV compacto urbano com design moderno",
+			"categoryId": 4,
+			"price": 200,
+			"image": "/car-models/vw_t_cross.png",
+			"specs": {
+				"passengers": 5,
+				"transmission": "Automático",
+				"fuel": "Flex",
+				"year": 2024,
+				"airConditioning": true,
+				"trunk": "420L"
+			},
+			"features": [
+				"Ar condicionado digital",
+				"Direção elétrica",
+				"Vidros elétricos",
+				"Travas elétricas",
+				"Airbags",
+				"Freios ABS",
+				"Controle de tração",
+				"Sensor de estacionamento",
+				"Central multimídia"
+			]
+		}
+	]
+}
