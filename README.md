@@ -6,7 +6,8 @@ O objetivo deste projeto é comparar uma aplicação tradicional de Single Page 
 
 A aplicação está dividida em 3 partes principais:
 
-- **`database/`**: Contém o arquivo `server.json` que funciona como um mock da nossa API simulando o backend, com os dados de carros e categorias.
+- **`supabase/`**: Migration SQL do backend (tabelas `category` e `car`, RLS somente leitura e dados iniciais).
+- **`database/`**: `server.json` original (mock antigo), mantido apenas como referência dos dados e `car-models/` com as imagens.
 - **`react-hermex/`**: Versão da aplicação feita inicialmente em React (SPA) puramente focado no lado do cliente (Client-Side Rendering). 
 - **`remix-hermex/`**: Versão refatorada e modernizada utilizando React Router v7.
 
@@ -16,22 +17,20 @@ A aplicação está dividida em 3 partes principais:
 - **React Router v7 / Remix**
 - **Tailwind CSS** para a estilização
 - **Vite** como empacotador principal
-- **JSON Server** para simulação de um backend com API REST
+- **Supabase** (Postgres + API REST) como backend, com RLS somente leitura
 - **TypeScript** na refatoração com Remix
 
 ## 🛠 Como executar o projeto localmente
 
 Para rodar o projeto, é necessário inicializar o backend e uma das versões do frontend de sua escolha.
 
-### 1. Iniciando o Backend API (Mock)
-No diretório raiz do projeto, instale as dependências e inicie o JSON server.
+### 1. Backend (Supabase)
+O backend é um projeto Supabase. Aplique `supabase/migrations/*.sql` no seu projeto e copie as variáveis dos arquivos `.env.example` para `.env` em cada app:
 ```bash
-# Instale as dependências da raiz
-npm install
-
-# Inicie o JSON server (Rodará em http://localhost:3001)
-npm run server
+cp remix-hermex/.env.example remix-hermex/.env   # SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY
+cp react-hermex/.env.example react-hermex/.env   # VITE_SUPABASE_URL, VITE_SUPABASE_PUBLISHABLE_KEY
 ```
+A chave publicável é pública por design: a segurança vem da RLS, que só permite `SELECT` para `anon`. Nunca use a `service_role` no frontend.
 
 ### 2. Iniciando a aplicação (versão Remix)
 Nesta versão focamos nas melhores práticas de rotas e dados, portanto abra outro terminal:
