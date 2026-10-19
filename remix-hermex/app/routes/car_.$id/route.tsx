@@ -12,24 +12,27 @@ import {
 } from 'react-icons/md';
 import { useLoaderData, type LoaderFunctionArgs } from 'react-router';
 import { Breadcrumbs, Header } from '~/components';
+import { isValidRouteId } from '~/lib/validators';
 import { api } from '~/services/api.server';
 
 export async function loader({ params }: LoaderFunctionArgs) {
 	const { id } = params;
 
-	if (!id) {
-		throw new Response('ID não fornecido', { status: 400 });
+	if (!isValidRouteId(id)) {
+		throw new Response('ID inválido', { status: 400 });
 	}
 
 	try {
 		const car = await api.getCarById(id);
-		const category = await api.getCategoryById(car.categoryId);
-		const carWithCategoryName = {
+		const category = await api.getCategoryById(car.categoryId).catch(() => null);
+		return {
 			...car,
-			categoryName: category.title,
+			categoryName: category?.title ?? 'Sem categoria',
 		};
-		return carWithCategoryName;
 	} catch (error) {
+		if (error instanceof Response) {
+			throw error;
+		}
 		throw new Response('Carro não encontrado', { status: 404 });
 	}
 }

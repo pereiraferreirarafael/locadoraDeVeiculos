@@ -38,3 +38,7 @@ export function isValidYear(year: unknown): year is number {
 	const currentYear = new Date().getFullYear();
 	return year >= 1900 && year <= currentYear;
 }
+
+export function isValidRouteId(id: unknown): id is string {
+	return typeof id === 'string' && /^\d+$/.test(id);
+}

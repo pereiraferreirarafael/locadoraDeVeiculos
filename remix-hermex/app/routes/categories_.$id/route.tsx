@@ -1,12 +1,13 @@
 import { useLoaderData, type LoaderFunctionArgs } from 'react-router';
 import { Breadcrumbs, CarCard, Header } from '~/components';
+import { isValidRouteId } from '~/lib/validators';
 import { api } from '~/services/api.server';
 
 export async function loader({ params }: LoaderFunctionArgs) {
 	const { id } = params;
 
-	if (!id) {
-		throw new Response('ID não fornecido', { status: 400 });
+	if (!isValidRouteId(id)) {
+		throw new Response('ID inválido', { status: 400 });
 	}
 
 	try {
@@ -17,6 +18,9 @@ export async function loader({ params }: LoaderFunctionArgs) {
 
 		return { category, cars };
 	} catch (error) {
+		if (error instanceof Response) {
+			throw error;
+		}
 		throw new Response('Categoria não encontrada', { status: 404 });
 	}
 }
@@ -91,7 +95,7 @@ export default function CategoriesDetailRoute() {
 								<div>
 									<p className='text-body-xs text-neutral-text'>A partir de</p>
 									<p className='font-heading text-heading-sm text-neutral-black'>
-										R${Math.min(...cars.map((c) => c.price))}/dia
+										{cars.length > 0 ? `R$${Math.min(...cars.map((c) => c.price))}/dia` : '—'}
 									</p>
 								</div>
 							</div>

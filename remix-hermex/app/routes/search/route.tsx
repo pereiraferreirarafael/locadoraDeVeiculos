@@ -3,9 +3,11 @@ import { useLoaderData, type LoaderFunctionArgs } from 'react-router';
 import { Breadcrumbs, CarCard, Header } from '~/components';
 import { api } from '~/services/api.server';
 
+const MAX_QUERY_LENGTH = 100;
+
 export async function loader({ request }: LoaderFunctionArgs) {
 	const url = new URL(request.url);
-	const query = url.searchParams.get('q') || '';
+	const query = (url.searchParams.get('q') ?? '').trim().slice(0, MAX_QUERY_LENGTH);
 
 	try {
 		const [cars, categories] = await Promise.all([api.getCars(), api.getCategory()]);
@@ -17,7 +19,7 @@ export async function loader({ request }: LoaderFunctionArgs) {
 						car.title.toLowerCase().includes(searchTerm) ||
 						car.shortTitle.toLowerCase().includes(searchTerm) ||
 						car.description.toLowerCase().includes(searchTerm) ||
-						car.features?.some((feature) => feature.toLowerCase().includes(searchTerm))
+						(car.features?.some((feature) => feature.toLowerCase().includes(searchTerm)) ?? false)
 					);
 				})
 			: cars;
@@ -71,7 +73,8 @@ export default function SearchRoute() {
 						{query ? `Veículos disponíveis em "${query}"` : 'Todos os Veículos'}
 					</h1>
 					<p className='text-body-md text-neutral-text'>
-						{cars.length} {cars.length === 1 ? 'veículo disponível' : 'veículos disponíveis'}
+						{filteredCars.length}{' '}
+						{filteredCars.length === 1 ? 'veículo disponível' : 'veículos disponíveis'}
 					</p>
 				</div>
 

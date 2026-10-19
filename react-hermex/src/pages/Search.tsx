@@ -22,10 +22,15 @@ export function Search() {
           return false;
         }
 
-        // Search query filter - only filter if there's a query
-        // When coming from SearchBox with location, show all cars
-        // When searching from Header, filter by car name/description
-        // Note: In a real app, location would filter by actual car availability
+        const term = searchQuery.trim().toLowerCase();
+        if (term) {
+          const matches =
+            car.title.toLowerCase().includes(term) ||
+            car.shortTitle.toLowerCase().includes(term) ||
+            car.description.toLowerCase().includes(term) ||
+            (car.features?.some(feature => feature.toLowerCase().includes(term)) ?? false);
+          if (!matches) return false;
+        }
 
         return true;
       })
@@ -35,7 +40,7 @@ export function Search() {
         if (sortBy === 'name') return a.title.localeCompare(b.title);
         return 0;
       });
-  }, [cars, selectedCategory, sortBy]);
+  }, [cars, selectedCategory, sortBy, searchQuery]);
 
   const loading = carsLoading || categoriesLoading;
 
